@@ -1,7 +1,7 @@
-// 
+// Logic for the Todo List 
 let todoArray = [];
 
-function todoFunction(elem1, elem2){
+const todoFunction = (elem1, elem2) => {
   let todoInput = elem1.value;
   let dueDate = elem2.value;
   // let obj = {};
@@ -10,7 +10,7 @@ function todoFunction(elem1, elem2){
     // obj.todoInput = todoInput;
     // obj.dueDate = dueDate;
     // todoArray.push(obj);
-    todoArray.unshift({todoInput, dueDate});
+    todoArray.push({todoInput, dueDate});
   }
   elem1.value = '';
   elem2.value = '';
@@ -46,20 +46,28 @@ function todoList(){
   //   `;
   // }
 
-  todoArray.forEach(function(x, y){
-    prgHTML += `
-    <div>${x.todoInput}</div>
-    <div>${x.dueDate}</div>
-    <button
-      class="delete-button" 
-      onclick="
-        todoArray.splice(${y}, 1); 
-        todoList();
-      ">
+  todoArray.forEach(
+    x => {
+      prgHTML += `
+      <div>${x.todoInput}</div>
+      <div>${x.dueDate}</div>
+      <button class="delete-button js-delete">
         Delete
-    </button>`;
-  })
+      </button>`;
+    }
+  );
 
   document.querySelector('.js-show-todo').innerHTML = prgHTML;
-  // console.log(prgHTML);
+
+  document.querySelectorAll('.js-delete').forEach((y, z) => {
+    y.addEventListener('click', () => {
+      todoArray.splice(z, 1); 
+      todoList();
+    });
+  });
 }
+
+const addButton = document.querySelector('.js-add')
+addButton.addEventListener('click', () => {
+  todoList();
+});
